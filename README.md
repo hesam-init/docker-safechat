@@ -125,6 +125,8 @@ Forward proxy using ssh
 
 ```
 sudo ssh -p 4949 root@<server-ip> -L 80:safechat-synapse:8008
+
+sudo gost -L tcp://:80/safechat-synapse:8008 -F sshd://root:<pass>@<server-ip>:4949
 ```
 
 ---
