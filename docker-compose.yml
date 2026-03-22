@@ -38,8 +38,6 @@ services:
     image: docker.iranserver.com/awesometechnologies/synapse-admin:${SYNAPSE_ADMIN_VERSION}
     container_name: safechat-admin
     restart: unless-stopped
-    ports:
-      - "8080:80"
     networks:
       - safechat
 

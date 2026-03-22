@@ -127,6 +127,8 @@ Forward proxy using ssh
 sudo ssh -p 4949 forwarder@<server-ip> -L 80:safechat-synapse:8008
 
 sudo gost -L tcp://:80/safechat-synapse:8008 -F sshd://forwarder:<pass>@<server-ip>:4949
+
+sudo gost -L tcp://:80/safechat-synapse:8008 -L tcp://:8020/synapse-admin:80 -F sshd://forwarder:<pass>@<server-ip>:4949
 ```
 
 ---
@@ -148,8 +150,7 @@ docker exec -it safechat-synapse register_new_matrix_user \
   -c /data/homeserver.yaml \
   -u admin \
   -p yourpassword \
-  -a \
-  http://localhost:8008
+  -a
 ```
 
 Then log into the admin panel at `http://127.0.0.1:8080` using the homeserver URL `http://127.0.0.1`.
