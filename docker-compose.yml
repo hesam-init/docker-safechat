@@ -26,20 +26,11 @@ services:
     environment:
       SERVER_IP: ${SERVER_IP}
       SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # POSTGRES_DB: ${POSTGRES_DB}
+      # POSTGRES_USER: ${POSTGRES_USER}
+      # POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./synapse/data:/data
-    networks:
-      - safechat
-
-  element:
-    image: docker.iranserver.com/vectorim/element-web:${ELEMENT_VERSION}
-    container_name: safechat-element
-    restart: unless-stopped
-    volumes:
-      - ./element/config.json:/app/config.json:ro
     networks:
       - safechat
 
@@ -52,21 +43,24 @@ services:
     networks:
       - safechat
 
-  nginx:
-    image: docker.iranserver.com/nginx:${NGINX_VERSION}
-    container_name: safechat-nginx
+  ssh:
+    build:
+      context: ${PWD}
+      dockerfile: Dockerfile
+      target: ssh
+      network: host
+    image: safechat-ssh:latest
+    container_name: safechat-ssh
     restart: unless-stopped
-    depends_on:
-      - synapse
-      - element
+    environment:
+      TZ: Asia/Tehran
+      SSH_PASSWORD: ${SSH_PASSWORD}
     ports:
-      - "80:80"
-      - "8448:8448"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - "4949:22"
     networks:
       - safechat
 
 networks:
   safechat:
     driver: bridge
+    name: safechat

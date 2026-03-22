@@ -114,10 +114,18 @@ registration_requires_token: true
 
 ```bash
 docker compose up -d
+docker compose -f docker-compose.web.yml up -d
+
 docker compose logs -f synapse
 ```
 
 Wait for `Synapse now listening on port 8008` in the logs.
+
+Forward proxy using ssh
+
+```
+sudo ssh -p 4949 root@<server-ip> -L 80:safechat-synapse:8008
+```
 
 ---
 

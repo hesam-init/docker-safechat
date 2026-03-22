@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  element:
+    image: docker.iranserver.com/vectorim/element-web:${ELEMENT_VERSION}
+    container_name: safechat-element
+    restart: unless-stopped
+    volumes:
+      - ./element/config.json:/app/config.json:ro
+    networks:
+      - safechat
+
+  nginx:
+    image: docker.iranserver.com/nginx:${NGINX_VERSION}
+    container_name: safechat-nginx
+    restart: unless-stopped
+    depends_on:
+      - element
+    ports:
+      - "80:80"
+      - "8448:8448"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - safechat
+
+networks:
+  safechat:
+    external: true
