@@ -31,7 +31,8 @@ RUN sed -i \
     -e 's/.*GatewayPorts.*/GatewayPorts yes/' \
     /etc/ssh/sshd_config
 
-RUN adduser -D -s /bin/bash forwarder
+# RUN adduser -D -s /bin/bash forwarder
+RUN adduser -D -s /sbin/nologin forwarder
 
 # Set users password
 # RUN echo "root:${PASSWORD}" | chpasswd
