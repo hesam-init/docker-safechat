@@ -83,8 +83,8 @@ docker run --rm \
 ### 4. Fix ownership
 
 ```bash
-sudo chown -R 991:991 ~/DockerCompose/docker-safechat/synapse/data
 sudo chown -R 1000:1000 ~/DockerCompose/docker-safechat/postgres/data
+sudo chown -R 991:991 ~/DockerCompose/docker-safechat/synapse/data
 ```
 
 ### 5. Edit `synapse/data/homeserver.yaml`
@@ -124,9 +124,9 @@ Wait for `Synapse now listening on port 8008` in the logs.
 Forward proxy using ssh
 
 ```
-sudo ssh -p 4949 root@<server-ip> -L 80:safechat-synapse:8008
+sudo ssh -p 4949 forwarder@<server-ip> -L 80:safechat-synapse:8008
 
-sudo gost -L tcp://:80/safechat-synapse:8008 -F sshd://root:<pass>@<server-ip>:4949
+sudo gost -L tcp://:80/safechat-synapse:8008 -F sshd://forwarder:<pass>@<server-ip>:4949
 ```
 
 ---

@@ -18,17 +18,26 @@ FROM base AS ssh
 
 ARG SSH_PASSWORD=root
 
-RUN ssh-keygen -A && \
-    sed -i \
-        -e 's/.*PermitRootLogin.*/PermitRootLogin yes/' \
-        -e 's/.*Port 22.*/Port 22/' \
-        -e 's/.*AllowTcpForwarding.*/AllowTcpForwarding yes/' \
-        -e 's/.*GatewayPorts.*/GatewayPorts yes/' \
-        /etc/ssh/sshd_config
+RUN sed -i \
+    -e 's/.*PermitRootLogin.*/PermitRootLogin no/' \
+    -e 's/.*PasswordAuthentication.*/PasswordAuthentication yes/' \
+    -e 's/.*PubkeyAuthentication.*/PubkeyAuthentication no/' \
+    -e 's/.*X11Forwarding.*/X11Forwarding no/' \
+    -e 's/.*AllowAgentForwarding.*/AllowAgentForwarding no/' \
+    -e 's/.*PermitTunnel.*/PermitTunnel no/' \
+    -e 's/.*MaxAuthTries.*/MaxAuthTries 10/' \
+    -e 's/.*LoginGraceTime.*/LoginGraceTime 20/' \
+    -e 's/.*AllowTcpForwarding.*/AllowTcpForwarding yes/' \
+    -e 's/.*GatewayPorts.*/GatewayPorts yes/' \
+    /etc/ssh/sshd_config
 
-# Set root password
-RUN echo "root:${PASSWORD}" | chpasswd && \
-    echo "export VISIBLE=now" >> /etc/profile
+RUN adduser -D -s /bin/bash forwarder
+
+# Set users password
+# RUN echo "root:${PASSWORD}" | chpasswd
+RUN echo "forwarder:${SSH_PASSWORD}" | chpasswd
+
+RUN echo "export VISIBLE=now" >> /etc/profile
 
 COPY ssh-entrypoint.sh /usr/local/bin/startup.sh
 RUN chmod +x /usr/local/bin/startup.sh
