@@ -1,0 +1,15 @@
+{
+   "default_server_config": {
+      "m.homeserver": {
+         "base_url": "http://0.0.0.0",
+         "server_name": "matrix"
+      }
+   },
+   "brand": "SafeChat",
+   "integrations_ui_url": "",
+   "integrations_rest_url": "",
+   "integrations_widgets_urls": [],
+   "bug_report_endpoint_url": "",
+   "showLabsSettings": true,
+   "features": {}
+}

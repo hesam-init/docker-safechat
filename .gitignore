@@ -1,0 +1,10 @@
+# --- Secrets ---
+.env
+synapse/data/
+
+# --- Database ---
+postgres/data/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
